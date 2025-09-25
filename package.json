@@ -1,0 +1,27 @@
+{
+  "name": "app-registro-asistencia",
+  "version": "1.0.0",
+  "description": "Aplicación web para registrar y controlar la asistencia de empleados. Permite a usuarios autorizados registrar entradas y salidas, y calcula horas laborales, extras y recargos nocturnos.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.15.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrayanOrt1z/app-registro-asistencia.git"
+  },
+  "author": "Brayan Ortiz <brayanortizg7@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BrayanOrt1z/app-registro-asistencia/issues"
+  },
+  "homepage": "https://github.com/BrayanOrt1z/app-registro-asistencia#readme"
+}
