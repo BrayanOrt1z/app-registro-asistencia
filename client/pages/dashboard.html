@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Control de Asistencia</title>
+    <link rel="stylesheet" href="/assets/css/styles_dashboard.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <!-- Geometric Background -->
+    <div class="geometric-bg">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-clock"></i>
+                </div>
+
+                <!-- Mensaje de bienvenida -->
+                <div class="header-info">
+                    <h1>Control de Asistencia</h1>
+                    <div class="welcome-message">
+                        <span class="welcome-text">
+                            ¡Bienvenido, <span id="userName">Usuario</span>!
+                        </span>
+                        <span class="current-date" id="currentDateHeader"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <button class="header-btn" id="configBtn" aria-label="Configuraciones">
+                    <i class="fas fa-cog"></i>
+                    Configuraciones
+                </button>
+                <button class="header-btn logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <button class="nav-btn active" data-section="control">
+                <i class="fas fa-clock"></i>
+                Control de Tiempo
+            </button>
+            <button class="nav-btn" data-section="informes">
+                <i class="fas fa-chart-bar"></i>
+                Informes
+            </button>
+        </nav>
+
+        <!-- Control de Tiempo -->
+        <section id="control-section" class="section active">
+            <div class="time-control">
+                <div class="date-display">
+                    <h2 id="currentDate"></h2>
+                </div>
+                <div class="time-display">
+                    <div class="clock" id="currentTime"></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn entry" id="entryBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Registrar Entrada
+                    </button>
+                    <button class="action-btn exit" id="exitBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Registrar Salida
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Informes -->
+        <section id="informes-section" class="section">
+            <div class="reports-header">
+                <div class="period-selector">
+                    <div class="select">
+                        <select id="periodSelect">
+                            <option value="today">Hoy</option>
+                            <option value="week">Esta Semana</option>
+                            <option value="month">Este Mes</option>
+                            <option value="custom">Período Personalizado</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <button class="export-btn">
+                    <i class="fas fa-download"></i>
+                    Exportar
+                </button>
+            </div>
+
+            <!-- Stats: solo 3 tarjetas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Horas Regulares</h3>
+                        <p class="stat-value">40:30</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Horas Extras</h3>
+                        <p class="stat-value">8:15</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Recargos Nocturnos</h3>
+                        <p class="stat-value">12:45</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla escritorio reordenada -->
+            <div class="records-table desktop-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Empleado</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Horas Regulares</th>
+                            <th>Horas Extras</th>
+                            <th>Recargos Nocturnos</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsTableBody">
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="employee-avatar">JP</div>
+                                    <span>Juan Pérez</span>
+                                </div>
+                            </td>
+                            <td><span class="time-badge">08:00</span></td>
+                            <td><span class="time-badge">17:30</span></td>
+                            <td><span class="hours-regular">8:00</span></td>
+                            <td><span class="hours-overtime">1:30</span></td>
+                            <td><span class="hours-night">0:45</span></td>
+                            <td>2024-01-15</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="employee-avatar">MG</div>
+                                    <span>María García</span>
+                                </div>
+                            </td>
+                            <td><span class="time-badge">09:00</span></td>
+                            <td><span class="time-badge">18:00</span></td>
+                            <td><span class="hours-regular">8:00</span></td>
+                            <td><span class="hours-overtime">1:00</span></td>
+                            <td><span class="hours-night">0:30</span></td>
+                            <td>2024-01-15</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tarjetas móviles reordenadas -->
+            <div class="mobile-records" id="mobileRecords">
+                <div class="record-card">
+                    <div class="record-header">
+                        <div class="employee-info">
+                            <div class="employee-avatar">JP</div>
+                            <div class="employee-details">
+                                <h4>Juan Pérez</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="record-times">
+                        <div class="time-entry">
+                            <label>Entrada:</label>
+                            <span class="time-badge">08:00</span>
+                        </div>
+                        <div class="time-entry">
+                            <label>Salida:</label>
+                            <span class="time-badge">17:30</span>
+                        </div>
+                    </div>
+
+                    <div class="record-hours">
+                        <div class="hours-item">
+                            <span class="hours-regular">8:00</span>
+                            <label>Regulares</label>
+                        </div>
+                        <div class="hours-item">
+                            <span class="hours-overtime">1:30</span>
+                            <label>Extras</label>
+                        </div>
+                        <div class="hours-item">
+                            <span class="hours-night">0:45</span>
+                            <label>Nocturnos</label>
+                        </div>
+                    </div>
+
+                    <div class="record-footer">
+                        <span class="record-date">2024-01-15</span>
+                    </div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-header">
+                        <div class="employee-info">
+                            <div class="employee-avatar">MG</div>
+                            <div class="employee-details">
+                                <h4>María García</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="record-times">
+                        <div class="time-entry">
+                            <label>Entrada:</label>
+                            <span class="time-badge">09:00</span>
+                        </div>
+                        <div class="time-entry">
+                            <label>Salida:</label>
+                            <span class="time-badge">18:00</span>
+                        </div>
+                    </div>
+
+                    <div class="record-hours">
+                        <div class="hours-item">
+                            <span class="hours-regular">8:00</span>
+                            <label>Regulares</label>
+                        </div>
+                        <div class="hours-item">
+                            <span class="hours-overtime">1:00</span>
+                            <label>Extras</label>
+                        </div>
+                        <div class="hours-item">
+                            <span class="hours-night">0:30</span>
+                            <label>Nocturnos</label>
+                        </div>
+                    </div>
+
+                    <div class="record-footer">
+                        <span class="record-date">2024-01-15</span>
+                    </div>
+                </div>
+
+                <button class="load-more-btn">
+                    <i class="fas fa-chevron-down"></i>
+                    Cargar más registros
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div id="timeModal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <h3 id="modalTitle">Registrar Entrada</h3>
+                <button class="modal-close" id="modalClose" aria-label="Cerrar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Empleado -->
+                <div class="input-group">
+                    <label for="employeeSelect">Empleado:</label>
+                    <div class="select-wrapper">
+                        <select id="employeeSelect"></select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opciones de tiempo -->
+            <div class="time-options">
+                <label class="option-box active" for="useCurrentTime">
+                    <input type="radio" id="useCurrentTime" name="timeOption" value="current" checked>
+                    <div class="option-content">
+                        <i class="fas fa-clock"></i>
+                        <div class="option-text">
+                            <span>Usar hora actual</span>
+                            <small id="currentTimeDisplay"></small>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="option-box" for="manualTime">
+                    <input type="radio" id="manualTime" name="timeOption" value="manual">
+                    <div class="option-content">
+                        <i class="fas fa-edit"></i>
+                        <div class="option-text">
+                            <span>Ingresar hora manualmente</span>
+                            <small>Seleccionar fecha y hora específica</small>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Fecha/Hora manual -->
+            <div class="manual-input" id="manualInput" style="display:none;">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="manualDate">Fecha:</label>
+                        <input type="date" id="manualDate">
+                    </div>
+                    <div class="input-group">
+                        <label for="manualTimeInput">Hora:</label>
+                        <input type="time" id="manualTimeInput">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="modal-btn cancel" id="modalCancel">Cancelar</button>
+                <button class="modal-btn confirm" id="modalConfirm">Registrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { pool } from '../db/connection.js';
+import { pool } from './../config/connection.js';
 
 export const userModel = {
     findByUsuario: async (usuario) => {

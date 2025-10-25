@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Configuraciones - Control de Asistencia</title>
+    <link rel="stylesheet" href="/assets/css/styles_settings.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <!-- Geometric Background -->
+    <div class="geometric-bg">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" id="backBtn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-info">
+                    <h1>Configuraciones</h1>
+                    <p class="header-subtitle">Gestiona tu perfil y empleados del sistema</p>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <button class="header-btn" id="dashboardBtn">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="config-nav">
+            <button class="config-tab active" data-section="perfil">
+                <i class="fas fa-user"></i>
+                <span>Mi Perfil</span>
+            </button>
+            <button class="config-tab" data-section="empleados">
+                <i class="fas fa-users"></i>
+                <span>Empleados</span>
+            </button>
+            <button class="config-tab" data-section="roles">
+                <i class="fas fa-user-shield"></i>
+                <span>Roles</span>
+            </button>
+        </nav>
+
+        <!-- Sección: Mi Perfil -->
+        <section id="perfil-section" class="config-section active">
+            <div class="section-header">
+                <h2>Mi Perfil</h2>
+                <p>Actualiza tu información personal y credenciales</p>
+            </div>
+
+            <div class="config-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-circle"></i> Información Personal</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" placeholder="Jhon" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" placeholder="Doe" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="correo">Correo Electrónico</label>
+                            <input type="email" id="correo" placeholder="jhondoe@gmail.com" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="usuario">Usuario</label>
+                            <input type="text" id="usuario" placeholder="jhon_doe" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="codEmpleado">Código de Empleado</label>
+                            <input type="text" id="codEmpleado" placeholder="jd" readonly />
+                            <small class="field-note">Este campo no puede ser modificado</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rol">Rol Actual</label>
+                            <input type="text" id="rol" value="Empleado" readonly />
+                            <small class="field-note">Contacta a un administrador para cambiar tu rol</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-lock"></i> Cambiar Contraseña</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="currentPassword">Contraseña Actual</label>
+                            <input type="password" id="currentPassword" placeholder="••••••••" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newPassword">Nueva Contraseña</label>
+                            <input type="password" id="newPassword" placeholder="••••••••" />
+                            <small class="field-note">Mínimo 8 caracteres</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmar Nueva Contraseña</label>
+                            <input type="password" id="confirmPassword" placeholder="••••••••" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary">Cancelar</button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    Guardar Cambios
+                </button>
+            </div>
+        </section>
+
+        <!-- Sección: Empleados -->
+        <section id="empleados-section" class="config-section">
+            <div class="section-header">
+                <h2>Gestión de Empleados</h2>
+                <p>Administra los usuarios del sistema de asistencia</p>
+            </div>
+
+            <div class="config-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> Lista de Empleados</h3>
+                    <button class="btn btn-primary btn-sm" id="addEmployeeBtn">
+                        <i class="fas fa-plus"></i>
+                        Agregar Empleado
+                    </button>
+                </div>
+                <div class="card-body no-padding">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar por nombre, apellido o código..." />
+                    </div>
+
+                    <div class="employees-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Empleado</th>
+                                    <th>Usuario</th>
+                                    <th>Correo</th>
+                                    <th>Rol</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeesTableBody">
+                                <tr>
+                                    <td><span class="code-badge">jd</span></td>
+                                    <td>
+                                        <div class="employee-info">
+                                            <div class="employee-avatar">JD</div>
+                                            <span>Jhon Doe</span>
+                                        </div>
+                                    </td>
+                                    <td>jhon_doe</td>
+                                    <td>jhondoe@gmail.com</td>
+                                    <td><span class="role-badge employee">Empleado</span></td>
+                                    <td>
+                                        <div class="action-icons">
+                                            <button class="icon-btn" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="icon-btn danger" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Vista móvil de empleados -->
+                    <div class="mobile-employee-cards">
+                        <div class="employee-card">
+                            <div class="employee-card-header">
+                                <div class="employee-info">
+                                    <div class="employee-avatar">JD</div>
+                                    <div class="employee-card-info">
+                                        <strong>Jhon Doe</strong>
+                                        <span class="code-badge">jd</span>
+                                    </div>
+                                </div>
+                                <span class="role-badge employee">Empleado</span>
+                            </div>
+                            <div class="employee-card-body">
+                                <div class="info-row">
+                                    <span class="info-label">Usuario:</span>
+                                    <span class="info-value">jhon_doe</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Correo:</span>
+                                    <span class="info-value">jhondoe@gmail.com</span>
+                                </div>
+                            </div>
+                            <div class="employee-card-footer">
+                                <button class="icon-btn">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="icon-btn danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Roles -->
+        <section id="roles-section" class="config-section">
+            <div class="section-header">
+                <h2>Gestión de Roles</h2>
+                <p>Configura los roles del sistema y sus permisos</p>
+            </div>
+
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon admin">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Admin</h3>
+                    </div>
+                    <div class="role-body">
+                        <p class="role-description">Acceso total al sistema, puede gestionar empleados, ver reportes y configurar el sistema</p>
+                        <div class="role-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-users"></i>
+                                <span>2 usuarios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-footer">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-eye"></i>
+                            Ver Permisos
+                        </button>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon portero">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                        <h3>Portero</h3>
+                    </div>
+                    <div class="role-body">
+                        <p class="role-description">Puede registrar entradas y salidas de empleados, acceso limitado a reportes</p>
+                        <div class="role-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-users"></i>
+                                <span>3 usuarios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-footer">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-eye"></i>
+                            Ver Permisos
+                        </button>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon empleado">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Empleado</h3>
+                    </div>
+                    <div class="role-body">
+                        <p class="role-description">Puede ver su propio historial de asistencia y registrar sus propias entradas/salidas</p>
+                        <div class="role-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-users"></i>
+                                <span>15 usuarios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-footer">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-eye"></i>
+                            Ver Permisos
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Nota sobre Roles</h4>
+                    <p>Los roles del sistema están predefinidos. Para cambiar el rol de un usuario, edita su información en la sección de Empleados.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal: Agregar/Editar Empleado -->
+    <div id="employeeModal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <h3 id="modalTitle">Agregar Empleado</h3>
+                <button class="modal-close" id="modalClose" aria-label="Cerrar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="employeeForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="modalNombre">Nombre *</label>
+                            <input type="text" id="modalNombre" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modalApellido">Apellido *</label>
+                            <input type="text" id="modalApellido" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modalCorreo">Correo Electrónico</label>
+                            <input type="email" id="modalCorreo" />
+                            <small class="field-note">Opcional</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modalUsuario">Usuario *</label>
+                            <input type="text" id="modalUsuario" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modalPassword">Contraseña *</label>
+                            <input type="password" id="modalPassword" required />
+                            <small class="field-note">Mínimo 8 caracteres</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modalCodigo">Código de Empleado *</label>
+                            <input type="text" id="modalCodigo" required />
+                            <small class="field-note">Debe ser único</small>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="modalRol">Rol *</label>
+                            <select id="modalRol" required>
+                                <option value="">Seleccionar rol...</option>
+                                <option value="1">Admin</option>
+                                <option value="2">Portero</option>
+                                <option value="3">Empleado</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modalCancel">Cancelar</button>
+                <button class="btn btn-primary" id="modalConfirm">
+                    <i class="fas fa-save"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/settings.js"></script>
+</body>
+</html>
