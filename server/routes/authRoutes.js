@@ -1,10 +1,10 @@
 import express from 'express';
 import * as authController from '../controllers/authController.js';
 
-const authRouter = express.Router();
+const router = express.Router();
 
 // Definir rutas para el módulo de autenticación
-authRouter.post('/login', authController.loginUser);
+router.post('/login', authController.loginUser);
 
-export default authRouter;
+export default router;
 

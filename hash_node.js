@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 
-const miContraseña = 'contraseñaprueba123';
+//const miContraseña = 'contraseñaprueba123';
+const miContraseña = '12345';
 
 const hashContraseña = await bcrypt.hash(miContraseña, 10);
 

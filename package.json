@@ -2,19 +2,25 @@
   "name": "app-registro-asistencia",
   "version": "1.0.0",
   "description": "Aplicación web para registrar y controlar la asistencia de empleados. Permite a usuarios autorizados registrar entradas y salidas, y calcula horas laborales, extras y recargos nocturnos.",
-  "main": "app.js",
+  "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
   },
   "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.15.1"
+    "mysql2": "^3.15.1",
+    "session": "^0.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   },
   "repository": {
     "type": "git",
