@@ -1,7 +1,13 @@
 import bcrypt from 'bcrypt';
 
+// Contraseña John Doe
 //const miContraseña = 'contraseñaprueba123';
-const miContraseña = '12345';
+
+// Contraseña Generador QR
+//const miContraseña = '12345';
+
+// Contraseña Portero Prueba
+const miContraseña = 'portero123';
 
 const hashContraseña = await bcrypt.hash(miContraseña, 10);
 

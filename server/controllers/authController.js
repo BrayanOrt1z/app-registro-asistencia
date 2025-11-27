@@ -26,7 +26,10 @@ export const loginUser = async (req, res) => {
         } 
             
         const token = jwt.sign(
-            {id: foundUser.empleado_id, rol: foundUser.rol},
+            {id: foundUser.empleado_id,
+            username: foundUser.usuario, 
+            rol: foundUser.rol,
+            empresa: foundUser.empresa_id},
             process.env.JWT_SECRET,
             {expiresIn: '1h'}
         );
@@ -35,7 +38,7 @@ export const loginUser = async (req, res) => {
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production', 
             sameSite: 'strict', 
-            maxAge: 3600000
+            maxAge: 60 * 60 * 1000
         });
 
         return sendSuccess(res, 'Inicio de sesión exitoso', {
@@ -49,3 +52,12 @@ export const loginUser = async (req, res) => {
     };
 };
 
+export const logoutUser = (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict'
+    });
+    
+    return sendSuccess(res, 'Cierre de sesión exitoso', null, 200);
+}

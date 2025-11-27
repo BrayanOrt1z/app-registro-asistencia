@@ -16,9 +16,11 @@ export const attendanceModel = {
         }
     },
 
-    insertAttendance: async(employeeId, movementType) => {
+    insertAttendance: async(employeeId, movementType, employeePorterId = null, digitalSignature = null, method = 'QR') => {
         try {
-            const [result] = await pool.query('INSERT INTO registros_asistencia (empleado_registrado_id, tipo_movimiento, fecha_hora, registrado_por_id) VALUES (?, ?, now(), ?)', [employeeId, movementType, employeeId]);
+            const actorId = employeePorterId ?? employeeId;
+
+            const [result] = await pool.query('INSERT INTO registros_asistencia (empleado_registrado_id, tipo_movimiento, fecha_hora, registrado_por_id, firma_digital, metodo_registro) VALUES (?, ?, now(), ?, ?, ?)', [employeeId, movementType, actorId, digitalSignature, method]);
             return result;
         } catch (error) {
             console.error('Error al insertar el registro de asistencia:', error);

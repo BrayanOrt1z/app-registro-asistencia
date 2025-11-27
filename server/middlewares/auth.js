@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import responseUtil from '../utils/responses.js';
+
+const { sendError } = responseUtil;
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -7,10 +10,7 @@ export const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.status(401).json({
-            status: false, 
-            message: 'No autenticado'
-        }); // No autenticado()
+        return sendError(res, 'No autenticado', 401);
     }
 
     try {
@@ -19,21 +19,14 @@ export const verifyToken = (req, res, next) => {
         next();
     } catch (error) {
         res.clearCookie('token');
-        return res.status(401).json({
-            status: false,
-            message: 'Sesión expirada. Por favor, inicie sesión nuevamente.'
-        });
+        return sendError(res, 'Sesión expirada. Por favor, inicie sesión nuevamente.', 401);
     }
-
 }
 
 export const checkRole = (roles) => {
     return (req, res, next) => {
         if (!req.user || !roles.includes(req.user.rol)) {
-            return res.status(403).json({
-                status: false,
-                message: 'No autorizado'
-            });
+            return sendError(res, 'No autorizado', 403);
         }
         next();
     }

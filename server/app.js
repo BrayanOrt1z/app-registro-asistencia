@@ -4,7 +4,7 @@ import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 import authRouter from './routes/authRoutes.js';
-import qrRouter from '../server/routes/attendanceRoutes.js';
+import attendanceRouter from '../server/routes/attendanceRoutes.js';
 import { fileURLToPath } from 'url';
 import { notFound } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 // Rutas de API
 app.use('/api/auth', authRouter);
-app.use('/api/qr', qrRouter);
+app.use('/api/attendance', attendanceRouter);
 
 // Rutas de páginas
 app.get('/', (req, res) => {
