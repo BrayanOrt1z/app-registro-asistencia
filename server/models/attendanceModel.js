@@ -5,11 +5,7 @@ export const attendanceModel = {
         try {
             const [rows] = await pool.query('SELECT tipo_movimiento FROM registros_asistencia WHERE empleado_registrado_id = ? ORDER BY fecha_hora DESC LIMIT 1', [employeeId]);
 
-            if (rows.length > 0) {
-                return rows[0];
-            } else {
-                return null;
-            }
+            return rows.length > 0 ? rows[0] : null;
         } catch (error) {
             console.error('Error al obtener el último movimiento:', error);
             throw error;

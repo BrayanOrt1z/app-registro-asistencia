@@ -13,7 +13,7 @@ export const loginUser = async (req, res) => {
     }
 
     try {
-        const foundUser = await userModel.findByUsuario(user);
+        const foundUser = await userModel.findByUser(user);
 
         if (!foundUser) {
             return sendError(res, 'Usuario o contraseña incorrectos', 401);

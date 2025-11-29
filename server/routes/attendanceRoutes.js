@@ -5,12 +5,12 @@ import { generateQRToken, registerQR, registerAssisted } from '../controllers/at
 const router = express.Router();
 
 // Generar código QR para registro de asistencia
-router.get('/qr/generate', verifyToken, checkRole(['admin-qr']), generateQRToken);
+router.get('/qr', verifyToken, checkRole(['admin-qr']), generateQRToken);
 
 // Registro de asistencia por código QR
-router.post('/register/qr', verifyToken, registerQR);
+router.post('/register', verifyToken, registerQR);
 
 // Registro de asistencia asistida
-router.post('/register/assisted', verifyToken, checkRole(['admin', 'portero']), registerAssisted);
+router.post('/assisted-register', verifyToken, checkRole(['admin', 'portero']), registerAssisted);
 
 export default router;

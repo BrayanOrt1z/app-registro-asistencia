@@ -7,7 +7,10 @@ import bcrypt from 'bcrypt';
 //const miContraseña = '12345';
 
 // Contraseña Portero Prueba
-const miContraseña = 'portero123';
+//const miContraseña = 'portero123';
+
+// Contraseña Admin
+const miContraseña = 'admin12345';
 
 const hashContraseña = await bcrypt.hash(miContraseña, 10);
 
