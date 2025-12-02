@@ -66,6 +66,34 @@ export const userModel = {
         }
     },
 
+    findAll: async () => {
+        try {
+            const [rows] = await pool.query(`
+                SELECT 
+                    e.empleado_id, 
+                    e.nombre, 
+                    e.apellido, 
+                    e.correo, 
+                    e.usuario, 
+                    e.cod_empleado, 
+                    e.activo,
+                    r.nombre_rol, 
+                    emp.nombre_empresa, 
+                    CONCAT(s.nombre, ' ', s.apellido) AS supervisor_nombre
+                FROM empleados e
+                JOIN roles r ON e.rol_id = r.rol_id
+                JOIN empresas emp ON e.empresa_id = emp.empresa_id
+                LEFT JOIN empleados s ON e.supervisor_id = s.empleado_id
+                ORDER BY e.empleado_id DESC
+                `);
+
+            return rows;
+        } catch (error) {
+            console.error('Error al obtener todos los usuarios:', error);
+            throw error;
+        }
+    },
+
     getSupervisorsByCompanyId: async (companyId) => {
         try {
             const [rows] = await pool.query(`
@@ -100,6 +128,85 @@ export const userModel = {
             return result.insertId;
         } catch (error) {
             console.error('Error al crear el usuario:', error);
+            throw error;
+        }
+    },
+
+    updateUser: async (id, updateUserData) => {
+        try {
+            const {nombre, apellido, correo, usuario, cod_empleado, rol_id, empresa_id, supervisor_id, activo} = updateUserData;
+
+            const [result] = await pool.query(`
+                UPDATE empleados SET 
+                    nombre = ?, 
+                    apellido = ?, 
+                    correo = ?, 
+                    usuario = ?,
+                    cod_empleado = ?, 
+                    rol_id = ?, 
+                    empresa_id = ?, 
+                    supervisor_id = ?, 
+                    activo = ?
+                WHERE empleado_id = ?`,
+                [nombre, apellido, correo, usuario, cod_empleado, rol_id, empresa_id, supervisor_id, activo, id]);
+
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error('Error al actualizar el empleado:', error);
+            throw error;
+        }
+    },
+
+    updateProfileUser: async (id, updateUserData) => {
+        try {
+            const {usuario, correo} = updateUserData;
+            const [result] = await pool.query(`
+                UPDATE empleados SET 
+                    usuario = ?, 
+                    correo = ?
+                WHERE empleado_id = ?`,
+                [usuario, correo, id]);
+
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error('Error al actualizar el perfil del empleado:', error);
+            throw error;
+        }
+    },
+
+    updatePasswordProfile: async (id, newHashedPassword) => {
+        try {
+            const [result] = await pool.query(`
+                UPDATE empleados SET 
+                    contrasenia = ?
+                WHERE empleado_id = ?`,
+                [newHashedPassword, id]);
+
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error('Error al actualizar la contraseña del empleado:', error);
+            throw error;
+        }
+    },
+
+    reactivateUser: async (id) => {
+        try {
+            const [result] = await pool.query(`
+                UPDATE empleados SET activo = true WHERE empleado_id = ?`, [id]);
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error('Error al reactivar el empleado:', error);
+            throw error;
+        }
+    },
+
+    deactivateUser: async (id) => {
+        try {
+            const [result] = await pool.query(`
+                UPDATE empleados SET activo = false WHERE empleado_id = ?`, [id]);
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error('Error al desactivar el empleado:', error);
             throw error;
         }
     }

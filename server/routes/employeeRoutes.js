@@ -29,6 +29,9 @@ router.get('/:id', verifyToken, checkRole(['admin']), employeeController.getEmpl
 // Actualizar un empleado
 router.put('/:id', verifyToken, checkRole(['admin']), employeeController.updateEmployee);
 
+// Reactivar un empleado
+router.put('/:id/activate', verifyToken, checkRole(['admin']), employeeController.reactivateEmployee);
+
 // Eliminar un empleado
 router.delete('/:id', verifyToken, checkRole(['admin']), employeeController.deleteEmployee);
 

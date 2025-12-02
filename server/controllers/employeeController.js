@@ -35,7 +35,7 @@ export const createEmployee = async (req, res) => {
             rol_id: roleId,
             empresa_id: companyId,
             supervisor_id: supervisorId,
-            active: active
+            activo: active
         };
 
         const employeeCreated = await userModel.createNewUser(newEmployee);
@@ -100,17 +100,115 @@ export const getCompanies = async (req, res) => {
 }
 
 export const getAllEmployees = async (req, res) => {
-    return res.status(501).json({ message: "Falta implementar: Listar empleados" });
+    try {
+        const employees = await userModel.findAll();
+        return sendSuccess(res, 'Lista de empleados obtenida exitosamente', employees);
+    } catch (error) {
+        return sendError(res, 'Error al obtener los empleados', 500, error.message);
+    }
 };
 
 export const getEmployeeById = async (req, res) => {
-    return res.status(501).json({ message: "Falta implementar: Detalle empleado" });
+    try {
+        const { id } = req.params;
+        const employee = await userModel.findById(id);
+        if (!employee) {
+            return sendError(res, 'Empleado no encontrado', 404);
+        }
+        return sendSuccess(res, 'Empleado obtenido exitosamente', employee);
+    } catch (error) {
+        return sendError(res, 'Error al obtener el empleado', 500, error.message);
+    }
 };
 
 export const updateEmployee = async (req, res) => {
-    return res.status(501).json({ message: "Falta implementar: Actualizar empleado" });
+    try {
+        const {name, lastName, email, user, employeeCode, roleName, companyName, supervisorId, active} = req.body;
+        const { id } = req.params;
+
+        const currentEmployee = await userModel.findById(id);
+        if (!currentEmployee) {
+            return sendError(res, 'Empleado no encontrado', 404);
+        }
+
+        const roleId = roleName ? await roleModel.findIdByName(roleName) : null;
+        const companyId = companyName ? await companyModel.findIdByName(companyName) : null;
+
+        if (user !== currentEmployee.usuario) {
+            const existingUser = await userModel.findByUser(user);
+            if (existingUser) {
+                return sendError(res, 'El usuario ya existe', 409);
+            }
+        }
+
+        const updatedEmployee = {
+            nombre: name || currentEmployee.nombre,
+            apellido: lastName || currentEmployee.apellido,
+            correo: email || currentEmployee.correo,
+            usuario: user || currentEmployee.usuario,
+            cod_empleado: employeeCode || currentEmployee.cod_empleado,
+            rol_id: roleId || currentEmployee.rol_id,
+            empresa_id: companyId || currentEmployee.empresa_id,
+            supervisor_id: supervisorId || currentEmployee.supervisor_id,
+            activo: active !== undefined ? active : currentEmployee.activo
+        };
+
+        const resultUpdate = await userModel.updateUser(id, updatedEmployee);
+        
+        if (resultUpdate) {
+            return sendSuccess(res, 'Empleado actualizado correctamente', 200);
+        } else {
+            sendError(res, 'No se pudo actualizar: Empleado no encontrado', 404);
+        }
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+            if (error.sqlMessage.includes('cod_empleado')) {
+                return sendError(res, 'No se pudo actualizar: El código de empleado ya existe', 409);
+            }
+
+            if (error.sqlMessage.includes('usuario')) {
+                return sendError(res, 'No se pudo actualizar: El nombre de usuario ya está en uso', 409);
+            }
+
+            if (error.sqlMessage.includes('correo')) {
+                return sendError(res, 'No se pudo actualizar: El correo electrónico ya está en uso', 409);
+            }
+
+            return sendError(res, 'No se pudo actualizar: Ya existe un registro con estos datos', 409);
+        }
+
+        if (error.code === 'ER_NO_REFERENCED_ROW_2') {
+            sendError(res, 'No se pudo actualizar: Rol, Empresa o Supervisor no existen', 400);
+        }
+
+        return sendError(res, 'Error interno del servidor al actualizar el empleado', 500, error.message);
+    }
+}
+
+export const reactivateEmployee = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultReactivated = await userModel.reactivateUser(id);
+        if (resultReactivated) {
+            return sendSuccess(res, 'Empleado reactivado correctamente', 200);
+        } else {
+            return sendError(res, 'Empleado no encontrado', 404);
+        }
+    } catch (error) {
+        sendError(res, 'Error al reactivar el empleado', 500, error.message);
+    }
 };
 
 export const deleteEmployee = async (req, res) => {
-    return res.status(501).json({ message: "Falta implementar: Eliminar empleado" });
+    try {
+        const { id } = req.params;
+        const resultDeleted = await userModel.deactivateUser(id);
+        if (resultDeleted) {
+            return sendSuccess(res, 'Empleado desactivado correctamente', 200);
+        } else {
+            return sendError(res, 'Empleado no encontrado', 404);
+        }
+    } catch (error) {
+        return sendError(res, 'Error al eliminar el empleado', 500, error.message);
+    }
 };

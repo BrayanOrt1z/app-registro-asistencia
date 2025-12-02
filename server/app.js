@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import authRouter from './routes/authRoutes.js';
 import attendanceRouter from '../server/routes/attendanceRoutes.js';
 import employeeRouter from './routes/employeeRoutes.js';
-//import profileRouter from './routes/profileRoutes.js';
+import profileRouter from './routes/profileRoutes.js';
 import { fileURLToPath } from 'url';
 import { notFound } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -38,7 +38,7 @@ app.use('/api/attendance', attendanceRouter);
 app.use('/api/employees', employeeRouter);
 
 // Ruta de autogestión empleado (Perfil)
-//app.use('/api/profile', profileRouter);
+app.use('/api/profile', profileRouter);
 
 // Rutas de páginas
 app.get('/', (req, res) => {
