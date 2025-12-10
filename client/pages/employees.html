@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema C.A.R. - Gestionar Empleados</title>
+    <link rel="stylesheet" href="/assets/css/styles_employees.css">
+</head>
+<body>
+    <!-- Geometric Background -->
+    <div class="geometric-bg">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="employees-container">
+        <!-- Header -->
+        <div class="employees-header">
+            <a href="/pages/dashboard.html" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Volver al Dashboard
+            </a>
+            <div class="header-title">
+                <h1>Gestión de Empleados</h1>
+                <button id="btnCreateEmployee" class="btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Crear Empleado
+                </button>
+            </div>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="alertMessage" class="alert" style="display: none;">
+            <span id="alertText"></span>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-section">
+            <div class="search-bar">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="searchInput" placeholder="Buscar por nombre, código o email...">
+            </div>
+            <div class="filter-controls">
+                <select id="filterRole" class="filter-select">
+                    <option value="">Todos los roles</option>
+                </select>
+                <select id="filterCompany" class="filter-select">
+                    <option value="">Todas las empresas</option>
+                </select>
+                <select id="filterStatus" class="filter-select">
+                    <option value="">Todos los estados</option>
+                    <option value="1">Activos</option>
+                    <option value="0">Inactivos</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Employees Table -->
+        <div class="table-container">
+            <table class="employees-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Empresa</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="employeesTableBody">
+                    <!-- Rows populated by JavaScript -->
+                    <tr class="loading-row">
+                        <td colspan="7" style="text-align: center; padding: 3rem;">
+                            <div class="loader"></div>
+                            <p style="margin-top: 1rem; color: #717182;">Cargando empleados...</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Cards (hidden on desktop) -->
+        <div id="employeeCards" class="employee-cards">
+            <!-- Cards populated by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <h3>No se encontraron empleados</h3>
+            <p>No hay empleados que coincidan con tu búsqueda</p>
+        </div>
+    </div>
+
+    <!-- Modal: Crear/Editar Empleado -->
+    <div id="employeeModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="modalTitle">Crear Empleado</h3>
+                <button id="closeModal" class="modal-close">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="employeeForm" class="modal-body">
+                <input type="hidden" id="employeeId">
+                
+                <!-- Información Personal -->
+                <div class="form-section">
+                    <h4>Información Personal</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre *</label>
+                            <input type="text" id="nombre" placeholder="Nombre del empleado" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido *</label>
+                            <input type="text" id="apellido" placeholder="Apellido del empleado" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="codigo">Código *</label>
+                            <input type="text" id="codigo" placeholder="Ej: EMP001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico *</label>
+                            <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Credenciales -->
+                <div class="form-section">
+                    <h4>Credenciales de Acceso</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="usuario">Usuario *</label>
+                            <input type="text" id="usuario" placeholder="Nombre de usuario" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña <span id="passwordLabel">*</span></label>
+                            <input type="password" id="password" placeholder="Mínimo 6 caracteres">
+                            <small class="form-hint" id="passwordHint">Dejar vacío para mantener contraseña actual</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Asignaciones -->
+                <div class="form-section">
+                    <h4>Asignaciones Organizacionales</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rol_id">Rol *</label>
+                            <select id="rol_id" required>
+                                <option value="">Cargando roles...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="empresa_id">Empresa *</label>
+                            <select id="empresa_id" required>
+                                <option value="">Cargando empresas...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisor_id">Supervisor (Opcional)</label>
+                        <select id="supervisor_id">
+                            <option value="">Sin supervisor</option>
+                        </select>
+                        <small class="form-hint">Selecciona un supervisor de la misma empresa</small>
+                    </div>
+                </div>
+
+                <!-- Estado -->
+                <div class="form-section">
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="activo" checked>
+                        <label for="activo">
+                            <strong>Empleado Activo</strong>
+                            <span>Los empleados inactivos no pueden iniciar sesión</span>
+                        </label>
+                    </div>
+                </div>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" id="cancelForm" class="btn-secondary">Cancelar</button>
+                <button type="submit" form="employeeForm" id="saveEmployee" class="btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span id="saveButtonText">Crear Empleado</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Confirmar Eliminación -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3>Confirmar Acción</h3>
+                <button id="closeConfirmModal" class="modal-close">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="confirm-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <p id="confirmMessage">¿Estás seguro de que deseas realizar esta acción?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelConfirm" class="btn-secondary">Cancelar</button>
+                <button id="confirmAction" class="btn-danger">
+                    <span id="confirmButtonText">Confirmar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/empleados.js"></script>
+</body>
+</html>

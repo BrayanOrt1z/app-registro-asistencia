@@ -7,7 +7,7 @@ const { sendSuccess, sendError } = responseUtil;
 export const generateQRToken = async (req, res) => {
     try {
         const qrToken = jwt.sign(
-            {purpose: 'qr_access', time_checked: Date.now()}, process.env.QR_SECRET, {expiresIn: '60s'}
+            {purpose: 'qr_access', time_checked: Date.now()}, process.env.QR_SECRET, {expiresIn: '20s'}
         )
 
         return sendSuccess(res, 'Token QR generado exitosamente', {qrToken}, 200);

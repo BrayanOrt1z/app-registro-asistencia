@@ -7,10 +7,16 @@ const router = express.Router();
 // RUTAS DE BÚSQUEDA DE EMPLEADOS
 
 // Obtener lista de empresas
-router.get('/lookups/companies', verifyToken, checkRole(['admin']), employeeController.getCompanies);
+router.get('/lookups/companies', verifyToken, checkRole(['admin', 'portero']), employeeController.getCompanies);
 
 // Obtener lista de supervisores por empresa
 router.get('/lookups/supervisors', verifyToken, checkRole(['admin']), employeeController.getSupervisorsByCompany);
+
+// Obtener lista de empleados por empresa
+router.get('/by-company', verifyToken, checkRole(['portero']), employeeController.getEmployeesByCompany);
+
+// Obtener lista de empleados
+router.get('/lookups/employees', verifyToken, checkRole(['admin']), employeeController.getEmployeesByCompany);
 
 // Obtener lista de roles
 router.get('/lookups/roles', verifyToken, checkRole(['admin']), employeeController.getRoles);

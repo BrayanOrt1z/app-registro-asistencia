@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema C.A.R. - Mi Perfil</title>
+    <link rel="stylesheet" href="/assets/css/styles_profiles.css">
+</head>
+<body>
+    <!-- Geometric Background -->
+    <div class="geometric-bg">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="profile-container">
+        <!-- Header con navegación -->
+        <div class="profile-header">
+            <a href="dashboard.html" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Volver al Dashboard
+            </a>
+            <h1>Mi Perfil</h1>
+        </div>
+
+        <!-- Modal de Alerta -->
+        <div id="alertModal" class="alert-modal">
+            <div class="alert-modal-content">
+                <div id="alertIcon" class="alert-icon"></div>
+                <p id="alertText"></p>
+                <button id="closeAlert" class="btn-close-alert">Entendido</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="profile-content">
+            <!-- Sección: Información Personal -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Información Personal</h2>
+                        <p>Datos básicos de tu cuenta</p>
+                    </div>
+                </div>
+
+                <form id="profileForm" class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="codigo">Código de Empleado</label>
+                            <input type="text" id="codigo" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="rol">Rol</label>
+                            <input type="text" id="rol" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="empresa">Empresa</label>
+                            <input type="text" id="empresa" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="supervisor">Supervisor</label>
+                            <input type="text" id="supervisor" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="usuario">Usuario *</label>
+                            <input type="text" id="usuario" placeholder="Nombre de usuario" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico *</label>
+                            <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="cancelProfile" class="btn-secondary">Cancelar</button>
+                        <button type="submit" id="saveProfile" class="btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Sección: Cambiar Contraseña -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Seguridad</h2>
+                        <p>Cambiar tu contraseña de acceso</p>
+                    </div>
+                </div>
+
+                <form id="passwordForm" class="profile-form">
+                    <div class="form-group">
+                        <label for="currentPassword">Contraseña Actual *</label>
+                        <input type="password" id="currentPassword" placeholder="Ingresa tu contraseña actual" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newPassword">Nueva Contraseña *</label>
+                            <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmar Contraseña *</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirma tu nueva contraseña" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="cancelPassword" class="btn-secondary">Cancelar</button>
+                        <button type="submit" id="savePassword" class="btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            Cambiar Contraseña
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/formatValues.js"></script>
+    <script src="/assets/js/profile.js"></script>
+</body>
+</html>

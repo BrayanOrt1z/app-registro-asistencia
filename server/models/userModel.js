@@ -1,3 +1,4 @@
+import { getEmployeesByCompany } from '../controllers/employeeController.js';
 import { pool } from './../config/database.js';
 
 export const userModel = {
@@ -111,6 +112,33 @@ export const userModel = {
             return rows;
         } catch (error) {
             console.error('Error al obtener supervisores por ID de empresa:', error);
+            throw error;
+        }
+    },
+
+    getEmployeesByCompany: async (companyId) => {
+        try {
+            const [rows] = await pool.query(`
+                SELECT 
+                    e.empleado_id,
+                    e.nombre,
+                    e.apellido,
+                    e.correo,
+                    e.usuario,
+                    e.cod_empleado,
+                    e.activo,
+                    r.rol_id,
+                    r.nombre_rol AS rol,
+                    emp.empresa_id
+                FROM empleados e
+                LEFT JOIN roles r ON e.rol_id = r.rol_id
+                LEFT JOIN empresas emp ON e.empresa_id = emp.empresa_id
+                WHERE e.empresa_id = ? AND e.activo = true
+                ORDER BY e.nombre, e.apellido`, [companyId]);
+
+            return rows;
+        } catch (error) {
+            console.error('Error al obtener empleados por ID de empresa:', error);
             throw error;
         }
     },

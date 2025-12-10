@@ -108,6 +108,21 @@ export const getAllEmployees = async (req, res) => {
     }
 };
 
+export const getEmployeesByCompany = async (req, res) => {
+    try {
+        const { companyId } = req.query;
+
+        if (!companyId) {
+            return sendError(res, 'El ID de la empresa es obligatorio', 400);
+        }
+
+        const employees = await userModel.getEmployeesByCompany(companyId);
+        return sendSuccess(res, 'Lista de empleados obtenida exitosamente', employees);
+    } catch (error) {
+        return sendError(res, 'Error al obtener los empleados', 500, error.message);
+    }
+};
+
 export const getEmployeeById = async (req, res) => {
     try {
         const { id } = req.params;
