@@ -78,7 +78,9 @@ export const userModel = {
                     e.usuario, 
                     e.cod_empleado, 
                     e.activo,
-                    r.nombre_rol, 
+                    e.rol_id,
+                    r.nombre_rol,
+                    e.empresa_id, 
                     emp.nombre_empresa, 
                     CONCAT(s.nombre, ' ', s.apellido) AS supervisor_nombre
                 FROM empleados e

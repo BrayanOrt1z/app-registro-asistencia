@@ -165,31 +165,99 @@ body {
 }
 
 /* Alert Messages */
-.alert {
-    padding: 1rem 1.5rem;
-    border-radius: calc(var(--radius) - 6px);
-    margin-bottom: 2rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-    animation: slideDown 0.3s ease;
+.alert-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
 }
 
-.alert.error {
+.alert-modal.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.alert-modal-content {
+    background: white;
+    border-radius: var(--radius);
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+.alert-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.alert-modal.error .alert-icon {
     background: #fee2e2;
-    color: var(--error);
-    border: 2px solid #fecaca;
 }
 
-.alert.success {
+.alert-modal.error .alert-icon::before {
+    content: '⚠️';
+    display: block;
+    font-size: 2rem;
+    line-height: 1;
+    transform: translateX(2px) translateY(-5px);
+}
+
+.alert-modal.success .alert-icon {
     background: #dcfce7;
-    color: var(--success);
-    border: 2px solid #bbf7d0;
 }
 
-@keyframes slideDown {
+.alert-modal.success .alert-icon::before {
+    content: '✓';
+    color: var(--success);
+    font-weight: bold;
+}
+
+.alert-modal-content p {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.btn-close-alert {
+    padding: 0.75rem 2rem;
+    background: var(--corporate-primary);
+    color: white;
+    border: none;
+    border-radius: calc(var(--radius) - 6px);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-close-alert:hover {
+    background: var(--corporate-primary-dark);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -198,7 +266,7 @@ body {
 }
 
 /* =====================================================
-   SEARCH & FILTERS
+SEARCH & FILTERS
 ===================================================== */
 .search-section {
     background: white;
@@ -263,7 +331,7 @@ body {
 }
 
 /* =====================================================
-   TABLE
+TABLE
 ===================================================== */
 .table-container {
     background: white;
@@ -399,14 +467,14 @@ body {
 }
 
 /* =====================================================
-   MOBILE CARDS (hidden on desktop)
+MOBILE CARDS (hidden on desktop)
 ===================================================== */
 .employee-cards {
     display: none;
 }
 
 /* =====================================================
-   EMPTY STATE
+EMPTY STATE
 ===================================================== */
 .empty-state {
     background: white;
@@ -437,7 +505,7 @@ body {
 }
 
 /* =====================================================
-   MODALS
+MODALS
 ===================================================== */
 .modal {
     display: none;
@@ -542,7 +610,7 @@ body {
 }
 
 /* =====================================================
-   FORMS
+FORMS
 ===================================================== */
 .form-section {
     margin-bottom: 2rem;
@@ -645,7 +713,7 @@ body {
 }
 
 /* =====================================================
-   BUTTONS
+BUTTONS
 ===================================================== */
 .btn-primary,
 .btn-secondary,
@@ -719,7 +787,7 @@ body {
 }
 
 /* =====================================================
-   RESPONSIVE
+RESPONSIVE
 ===================================================== */
 @media (max-width: 1024px) {
     .employees-table {
@@ -870,4 +938,78 @@ body {
     .modal-footer {
         padding: 1.25rem;
     }
+}
+
+/* ================================================
+ESTILOS MEJORADOS PARA DROPDOWNS/SELECTS
+================================================ */
+
+.filter-select,
+select {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #1f2937;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 10px 36px 10px 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    line-height: 1.5;
+}
+
+.filter-select:hover,
+select:hover {
+    border-color: #9ca3af;
+    background-color: #f9fafb;
+}
+
+.filter-select:focus,
+select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background-color: #ffffff;
+}
+
+.filter-select:disabled,
+select:disabled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.filter-select option,
+select option {
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.filter-select option:hover,
+select option:hover {
+    background-color: #f3f4f6;
+}
+
+.filter-select option:checked,
+select option:checked {
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Ajuste específico para filtros */
+.filter-select {
+    min-width: 180px;
+    height: 42px;
 }

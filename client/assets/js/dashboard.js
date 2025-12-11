@@ -38,7 +38,7 @@ const countdown = document.getElementById('countdown');
 const logoutQR = document.getElementById('logoutQR');
 
 // Elementos para registro asistido
-const companySelect = document.getElementById('companySelect');
+const filterCompany = document.getElementById('companySelect');
 const employeeSelect = document.getElementById('employeeSelect');
 const signaturaPadCanvas = document.getElementById('signaturePad');
 const clearSignatureBtn = document.getElementById('clearSignature');
@@ -291,16 +291,16 @@ async function loadCompanies() {
 
         const responseData = await response.json();
 
-        companySelect.innerHTML = '<option value="">Seleccionar empresa...</option>';
+        filterCompany.innerHTML = '<option value="">Seleccionar empresa...</option>';
 
         responseData.data.forEach(company => {
             const option = document.createElement('option');
             option.value = company.empresa_id;
             option.textContent = company.nombre_empresa;
-            companySelect.appendChild(option);
+            filterCompany.appendChild(option);
         });
 
-        companySelect.disabled = false;
+        filterCompany.disabled = false;
     } catch (error) {
         showAlert('Error al cargar las empresas', 'error');
     }
@@ -416,8 +416,8 @@ btnOpenAssistedModal.addEventListener('click', openAssistedModal);
 closeAssistedModal.addEventListener('click', closeAssistedModalFn);
 cancelAssistedBtn.addEventListener('click', closeAssistedModalFn);
 
-companySelect.addEventListener('change', () => {
-    const companyId = companySelect.value;
+filterCompany.addEventListener('change', () => {
+    const companyId = filterCompany.value;
 
     if (companyId) {
         loadEmployeesSelect(companyId);

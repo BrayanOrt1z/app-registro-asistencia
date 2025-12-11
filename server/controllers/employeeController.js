@@ -9,14 +9,11 @@ const { sendSuccess, sendError } = responseUtil;
 
 export const createEmployee = async (req, res) => {
     try {
-        const {name, lastName, email, user, password, employeeCode, roleName, companyName, supervisorId, active} = req.body;
+        const {name, lastName, email, user, password, employeeCode, roleId, companyId, supervisorId, active} = req.body;
 
-        if (!name || !lastName || !user || !password || !employeeCode || !roleName || !companyName) {
+        if (!name || !lastName || !user || !password || !employeeCode || !roleId || !companyId) {
             return sendError(res, 'Faltan datos obligatorios', 400);
         }
-
-        const roleId = await roleModel.findIdByName(roleName);
-        const companyId = await companyModel.findIdByName(companyName);
 
         const existingUser = await userModel.findByUser(user);
         if (existingUser) {
@@ -32,9 +29,9 @@ export const createEmployee = async (req, res) => {
             usuario: user,
             contrasenia: hashedPassword,
             cod_empleado: employeeCode,
-            rol_id: roleId,
-            empresa_id: companyId,
-            supervisor_id: supervisorId,
+            rol_id: parseInt(roleId),
+            empresa_id: parseInt(companyId),
+            supervisor_id: supervisorId ? parseInt(supervisorId) : null,
             activo: active
         };
 
@@ -138,16 +135,13 @@ export const getEmployeeById = async (req, res) => {
 
 export const updateEmployee = async (req, res) => {
     try {
-        const {name, lastName, email, user, employeeCode, roleName, companyName, supervisorId, active} = req.body;
+        const {name, lastName, email, user, employeeCode, roleId, companyId, supervisorId, active} = req.body;
         const { id } = req.params;
 
         const currentEmployee = await userModel.findById(id);
         if (!currentEmployee) {
             return sendError(res, 'Empleado no encontrado', 404);
         }
-
-        const roleId = roleName ? await roleModel.findIdByName(roleName) : null;
-        const companyId = companyName ? await companyModel.findIdByName(companyName) : null;
 
         if (user !== currentEmployee.usuario) {
             const existingUser = await userModel.findByUser(user);

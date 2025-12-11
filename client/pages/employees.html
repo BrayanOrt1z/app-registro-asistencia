@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema C.A.R. - Gestionar Empleados</title>
     <link rel="stylesheet" href="/assets/css/styles_employees.css">
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
 </head>
 <body>
     <!-- Geometric Background -->
@@ -34,9 +35,13 @@
             </div>
         </div>
 
-        <!-- Alert Messages -->
-        <div id="alertMessage" class="alert" style="display: none;">
-            <span id="alertText"></span>
+        <!-- Modal de Alerta -->
+        <div id="alertModal" class="alert-modal">
+            <div class="alert-modal-content">
+                <div id="alertIcon" class="alert-icon"></div>
+                <p id="alertText"></p>
+                <button id="closeAlert" class="btn-close-alert">Entendido</button>
+            </div>
         </div>
 
         <!-- Search Bar -->
@@ -237,6 +242,7 @@
         </div>
     </div>
 
-    <script src="/js/empleados.js"></script>
+    <script src="/assets/js/formatValues.js"></script>
+    <script src="/assets/js/employees.js"></script>
 </body>
 </html>

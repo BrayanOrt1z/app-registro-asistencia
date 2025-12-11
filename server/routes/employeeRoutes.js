@@ -13,10 +13,7 @@ router.get('/lookups/companies', verifyToken, checkRole(['admin', 'portero']), e
 router.get('/lookups/supervisors', verifyToken, checkRole(['admin']), employeeController.getSupervisorsByCompany);
 
 // Obtener lista de empleados por empresa
-router.get('/by-company', verifyToken, checkRole(['portero']), employeeController.getEmployeesByCompany);
-
-// Obtener lista de empleados
-router.get('/lookups/employees', verifyToken, checkRole(['admin']), employeeController.getEmployeesByCompany);
+router.get('/by-company', verifyToken, checkRole(['portero', 'admin']), employeeController.getEmployeesByCompany);
 
 // Obtener lista de roles
 router.get('/lookups/roles', verifyToken, checkRole(['admin']), employeeController.getRoles);

@@ -10,7 +10,8 @@ function formatRole(role) {
         'admin': 'Administrador',
         'admin-qr': 'Administrador QR',
         'portero': 'Portero',
-        'empleado': 'Empleado'
+        'empleado': 'Empleado',
+        'supervisor': 'Supervisor'
     };
     
     return roleMap[role] || role;
