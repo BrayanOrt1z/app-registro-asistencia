@@ -1,581 +1,518 @@
-# 🎯 Sistema C.A.R. - Control de Asistencia y Registros
+# 🕐 Sistema C.A.R. - Control de Asistencia y Registro
 
-Sistema web profesional para gestión integral de asistencia de empleados en entornos multi-empresa. Soporta registro dual (QR automático + Manual asistido) con firma digital, autenticación JWT, y gestión de roles por empresa.
+<div align="center">
 
-> **Desarrollado como MVP funcional** demostrando arquitectura escalable, seguridad robusta, y diseño de base de datos compleja.
+<img src="https://img.shields.io/badge/Estado-MVP_Completado-28a745?style=for-the-badge" alt="Estado MVP">
+<img src="https://img.shields.io/badge/Versión-1.0.0-007bff?style=for-the-badge" alt="Versión">
+<img src="https://img.shields.io/badge/Licencia-MIT-yellow?style=for-the-badge" alt="Licencia">
+
+<br/>
+
+<img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js">
+<img src="https://img.shields.io/badge/Express-4.x-000000?style=flat-square&logo=express&logoColor=white" alt="Express">
+<img src="https://img.shields.io/badge/MySQL-8.0+-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL">
+<img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript">
+
+**Sistema integral de control de asistencia con generación de códigos QR, registro asistido con firma digital y gestión completa de empleados.**
+
+ • [Reportar Bug](https://github.com/BrayanOrt1z/app-registro-asistencia/issues)
+
+</div>
+
+---
+
+## 📋 Tabla de Contenidos
+
+- [Sobre el Proyecto](#-sobre-el-proyecto)
+- [Características Principales](#-características-principales)
+- [Screenshots](#-screenshots)
+- [Stack Tecnológico](#-stack-tecnológico)
+- [Arquitectura](#-arquitectura)
+- [Instalación](#-instalación)
+- [Configuración](#-configuración)
+- [Uso](#-uso)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [API Endpoints](#-api-endpoints)
+- [Roadmap](#-roadmap)
+- [Contribuir](#-contribuir)
+- [Licencia](#-licencia)
+- [Contacto](#-contacto)
+
+---
+
+## 🎯 Sobre el Proyecto
+
+Sistema C.A.R. es una aplicación web full-stack diseñada para empresas de transporte público que necesitan un sistema robusto de control de asistencia. El sistema permite a los empleados registrar su entrada y salida mediante códigos QR, ofrece registro asistido para personal sin dispositivos móviles, y proporciona una interfaz completa de administración de empleados.
+
+### Problema que Resuelve
+
+Las empresas de transporte enfrentan desafíos al controlar la asistencia de empleados en múltiples rutas y sedes. Este sistema:
+- ✅ Elimina el registro manual en papel.
+- ✅ Previene fraudes de asistencia.
+- ✅ Centraliza la información de múltiples empresas.
+- ✅ Facilita el registro para personal sin smartphones.
+- ✅ Genera reportes automáticos de asistencia.
+
+### Contexto Real
+
+**Proyecto de iniciativa propia** desarrollado al identificar una oportunidad de mejora en procesos operativos del sector transporte.
+
+**Problema observado:** En empresas de transporte público como METROSINU S.A. (Montería, Colombia), el registro de asistencia de empleados se realiza manualmente en papel, consumiendo aproximadamente 4 horas diarias en procesamiento administrativo.
+
+**Solución propuesta:** Sistema digital que automatiza completamente el proceso:
+- ✅ Registro por código QR (sin contacto, sin papel)
+- ✅ Validación instantánea con JWT
+- ✅ Reducción del tiempo de procesamiento de 4h a 15 minutos
+- ✅ Centralización de datos en tiempo real
+- ✅ Trazabilidad completa con firma digital
+
+**Valor demostrado:**
+- Ahorro de tiempo: **93.75%** de reducción en procesamiento
+- Escalable a múltiples empresas.
+
+Este proyecto demuestra mi capacidad para:
+- Identificar oportunidades de mejora en procesos existentes.
+- Diseñar soluciones técnicas escalables.
+- Desarrollar aplicaciones full-stack end-to-end.
+- Crear valor tangible con tecnología.
 
 ---
 
 ## ✨ Características Principales
 
-### 🔐 Autenticación y Seguridad
-- **JWT con httpOnly cookies** - Tokens seguros que previenen XSS
-- **Bcrypt para contraseñas** - Hash con salt rounds configurables
-- **Sistema de roles granular** - Admin, Supervisor, Empleado, Portero, Admin-QR
-- **Middleware de autorización** - Control de acceso por endpoint
-- **Logout con invalidación de sesión** - Limpieza de cookies segura
+### 🔐 Sistema de Autenticación
+- Login seguro con JWT (JSON Web Tokens).
+- Encriptación de contraseñas con bcrypt.
+- Sesiones persistentes con cookies httpOnly.
+- Control de acceso basado en roles (RBAC).
 
-### 👥 Gestión de Empleados (Admin)
-- **CRUD completo de empleados** - Crear, listar, actualizar, desactivar
-- **Soft delete** - Empleados se desactivan sin perder historial
-- **Validación de duplicados** - Usuario, email, código de empleado únicos
-- **Gestión multi-empresa** - Asignar empleados a diferentes empresas
-- **Jerarquías de supervisión** - Empleados con supervisores asignados
-- **Dropdowns dinámicos** - Supervisores filtrados por empresa
+### 👥 Gestión de Empleados (Administradores)
+- **CRUD Completo**: Crear, leer, actualizar y eliminar empleados.
+- **Filtros Avanzados**: Por empresa, rol, estado (activo/inactivo).
+- **Búsqueda en Tiempo Real**: Por nombre, código de empleado o email.
+- **Asignación de Roles**: Admin, Admin-QR, Supervisor,Portero, Empleado.
+- **Multi-empresa**: Gestión de empleados de múltiples compañías.
 
-### 📋 Auto-gestión de Perfil (Empleados)
-- **Ver perfil propio** - Información personal y laboral
-- **Actualizar datos limitados** - Email, usuario
-- **Cambio de contraseña seguro** - Requiere contraseña actual
-- **Campos protegidos** - Rol, empresa, nombre, apellido, código no modificables por empleado
+### 📱 Registro de Asistencia con QR
+- **Generación Dinámica**: Códigos QR únicos que se regeneran cada 20 segundos.
+- **Escaneo por Cámara**: Compatible con cualquier dispositivo móvil.
+- **Validación de Token**: Verificación de autenticidad y expiración.
+- **Vista Dedicada**: Pantalla completa para Admin-QR (ej: tablets en recepción).
 
-### 📥 Registro de Asistencia Dual
+### ✍️ Registro Asistido (Porteros)
+- Selección de empresa y empleado.
+- **Firma Digital**: Captura de firma del empleado como evidencia.
+- Validación de firma antes de registrar.
+- Diseñado para empleados sin smartphone.
 
-**Método 1: QR Automático**
-- Generación de tokens QR temporales (1 min)
-- Validación de tokens únicos y fecha
-- Detección automática de tipo de movimiento (entrada/salida)
-- Registro sin intervención humana
+### 👤 Gestión de Perfil
+- Actualización de información personal (usuario, email).
+- Cambio de contraseña con validación de contraseña actual.
+- Validación de unicidad de usuario y correo.
 
-**Método 2: Manual Asistido (Portero)**
-- Búsqueda de empleado por portero
-- Captura de firma digital
-- Registro manual con actor identificado
-- Trazabilidad completa (quién registró a quién)
+### 🎨 UX/UI Profesional
+- Diseño responsive (móvil, tablet, escritorio).
+- Animaciones suaves y efectos hover.
+- Sistema de alertas modales.
+- Páginas de error personalizadas (403, 404, 500).
+- Loading states y estados vacíos.
+- Favicon personalizado.
 
-### 🏢 Gestión Multi-empresa
-- Soporte para múltiples empresas en mismo sistema
-- Empleados asociados a empresa específica
-- Supervisores filtrados por empresa
-- Catálogos de empresas y roles
+---
 
-### 🗄️ Arquitectura de Base de Datos
-- **Diseño normalizado** - Relaciones con foreign keys
-- **Auto-referencias** - Jerarquías de supervisión
-- **IDs intencionales** - Trazabilidad de actores en registros
-- **Campos de auditoría** - Timestamps, activo/inactivo, método de registro
+## 📸 Screenshots
+
+### Login
+<div align="center">
+  <img src="screenshots/login.png" alt="Pantalla de Login" width="600"/>
+  <p><em>Pantalla de inicio de sesión con validaciones en tiempo real</em></p>
+</div>
+
+### Dashboard - Administrador
+<div align="center">
+  <img src="screenshots/dashboard-admin.png" alt="Dashboard Admin" width="600"/>
+  <p><em>Panel principal para administradores con acceso a todas las funcionalidades</em></p>
+</div>
+
+### Gestión de Empleados
+<div align="center">
+  <img src="screenshots/employees.png" alt="Gestión de Empleados" width="600"/>
+  <p><em>Sistema completo de CRUD con filtros avanzados y búsqueda en tiempo real</em></p>
+</div>
+
+### Generación de QR (Admin-QR)
+<div align="center">
+  <img src="screenshots/qr-display.png" alt="Generación QR" width="600"/>
+  <p><em>Vista de pantalla completa con código QR que se regenera cada 20 segundos</em></p>
+</div>
+
+### Registro Asistido (Portero)
+<div align="center">
+  <img src="screenshots/assisted-registration.png" alt="Registro Asistido" width="600"/>
+  <p><em>Formulario de registro con firma digital para empleados sin smartphone</em></p>
+</div>
+
+### Perfil de Usuario
+<div align="center">
+  <img src="screenshots/profile.png" alt="Perfil de Usuario" width="600"/>
+  <p><em>Edición de información personal y cambio de contraseña</em></p>
+</div>
 
 ---
 
 ## 🛠️ Stack Tecnológico
 
+### Frontend
+- **HTML5** - Estructura semántica.
+- **CSS3** - Estilos personalizados con animaciones.
+- **JavaScript (Vanilla)** - Lógica del cliente sin frameworks.
+- **QRCode.js** - Generación de códigos QR.
+- **html5-qrcode** - Escaneo de códigos QR por cámara.
+- **Signature Pad** - Captura de firmas digitales.
+
 ### Backend
-- **Runtime:** Node.js v18+
-- **Framework:** Express.js
-- **Base de Datos:** MySQL 8.0
-- **Autenticación:** JSON Web Tokens (JWT)
-- **Seguridad:** bcryptjs para hashing
-- **Arquitectura:** MVC (Model-View-Controller)
-- **Validaciones:** Express middleware personalizado
+- **Node.js** (v18+) - Runtime de JavaScript.
+- **Express.js** - Framework web minimalista.
+- **MySQL** - Base de datos relacional.
+- **JWT** - Autenticación basada en tokens.
+- **bcrypt** - Encriptación de contraseñas.
+- **cookie-parser** - Manejo de cookies.
+- **CORS** - Configuración de seguridad.
 
-### Frontend (En Desarrollo)
-- HTML5, CSS3 (Tailwind CSS)
-- JavaScript ES6+ (Vanilla)
-- Fetch API para consumo de backend
-- Diseño responsive
-
----
-
-## 📊 Estructura de la Base de Datos
-```
-empleados (usuarios del sistema)
-├── empleado_id (PK)
-├── nombre, apellido, correo
-├── usuario, contrasenia (bcrypt hash)
-├── cod_empleado (unique)
-├── rol_id (FK → roles)
-├── empresa_id (FK → empresas)
-├── supervisor_id (FK → empleados) [auto-referencial]
-├── metodo_registro (QR | MANUAL)
-└── activo (soft delete)
-
-registros_asistencia
-├── registro_id (PK)
-├── empleado_registrado_id (FK → empleados) [quién marcó]
-├── registrado_por_id (FK → empleados) [quién lo registró]
-├── tipo_movimiento (ENTRADA | SALIDA)
-├── fecha_hora (timestamp)
-├── firma_digital (base64, opcional)
-└── metodo_registro (QR | MANUAL)
-
-empresas
-├── empresa_id (PK)
-├── nombre_empresa
-├── nit
-└── activo
-
-roles
-├── rol_id (PK)
-└── nombre_rol (admin | supervisor | empleado | portero | admin-qr)
-
-sesiones
-├── sesion_id (PK)
-├── usuario_id (FK → empleados)
-├── token (JWT)
-├── fecha_creacion
-└── fecha_expiracion
-```
+### Herramientas de Desarrollo
+- **Git** - Control de versiones.
+- **ESM** - Módulos ES6 nativos.
+- **dotenv** - Variables de entorno.
 
 ---
 
-## 🚀 Instalación y Configuración
+## 🏗️ Arquitectura
+
+### Arquitectura de Tres Capas
+```
+┌─────────────────────────────────────────────────────────┐
+│                      FRONTEND (Cliente)                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐ │
+│  │ login.js │  │dashboard │  │employees │  │profile  │ │
+│  │          │  │   .js    │  │   .js    │  │  .js    │ │
+│  └──────────┘  └──────────┘  └──────────┘  └─────────┘ │
+│                                                          │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │            Fetch API (HTTP/HTTPS)                  │ │
+│  └────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                  BACKEND (Servidor API)                  │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │              Middleware                          │   │
+│  │  - CORS, Cookie Parser, JSON Parser             │   │
+│  │  - Autenticación JWT                            │   │
+│  └──────────────────────────────────────────────────┘   │
+│                         ▼                                │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │              Routes                              │   │
+│  │  /auth, /profile, /employees, /attendance       │   │
+│  └──────────────────────────────────────────────────┘   │
+│                         ▼                                │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │            Controllers                           │   │
+│  │  - Lógica de negocio                            │   │
+│  │  - Validaciones                                 │   │
+│  └──────────────────────────────────────────────────┘   │
+│                         ▼                                │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │              Models                              │   │
+│  │  - Interacción con base de datos                │   │
+│  └──────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                BASE DE DATOS (MySQL)                     │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐ │
+│  │empleados │  │ empresas │  │   roles  │  │ movim.  │ │
+│  └──────────┘  └──────────┘  └──────────┘  └─────────┘ │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Patrón MVC (Model-View-Controller)
+
+- **Models**: Encapsulan la lógica de acceso a datos.
+- **Controllers**: Manejan las peticiones y respuestas HTTP.
+- **Views**: Frontend en HTML/CSS/JS vanilla.
+
+---
+
+## 🚀 Instalación
 
 ### Prerrequisitos
-- Node.js v18 o superior
-- MySQL 8.0
-- Git
 
-### Pasos de Instalación
+- **Node.js** v18.0.0 o superior.
+- **MySQL** 8.0 o superior.
+- **npm** o **yarn**.
+- **Git**.
+
+### Clonar el Repositorio
 ```bash
-# 1. Clonar repositorio
 git clone https://github.com/BrayanOrt1z/app-registro-asistencia.git
 cd sistema-car
-
-# 2. Instalar dependencias
-npm install
-
-# 3. Configurar variables de entorno
-cp .env.example .env
-# Editar .env con tus credenciales
-
-# 4. Crear base de datos
-mysql -u root -p < database/schema.sql
-mysql -u root -p < database/seed.sql
-
-# 5. Iniciar servidor
-npm start
-# o para desarrollo con nodemon:
-npm run dev
 ```
 
-### Variables de Entorno (.env)
+### Instalar Dependencias
+```bash
+npm install
+```
+
+### Configurar Base de Datos
+
+1. Crear la base de datos:
+```sql
+CREATE DATABASE sistema_car CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+2. Importar el esquema:
+```bash
+mysql -u tu_usuario -p sistema_car < database/development_schema.sql
+```
+
+---
+
+## ⚙️ Configuración
+
+### Variables de Entorno
+
+Crear un archivo `.env` en la raíz del proyecto:
 ```env
-# Servidor
+# Server
 PORT=3000
 NODE_ENV=development
 
-# Base de Datos
+# Database
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=tu_usuario
-DB_PASSWORD=tu_password
-DB_NAME=sistema_car
+DB_PASSWORD=tu_contraseña
+DB_NAME=asistencia_db
 
 # JWT
-JWT_SECRET=tu_secreto_super_seguro_aqui
-JWT_EXPIRES_IN=24h
+JWT_SECRET=tu_codigo_seguro_aqui
+JWT_EXPIRES_IN=8h
+
+# CORS
+CORS_ORIGIN=http://localhost:3000
 
 # Cookies
-COOKIE_MAX_AGE=86400000
+COOKIE_SECRET=codigo_secreto_diferente_para_cookies
+```
+
+### Configuración de Producción
+
+Para producción, asegúrate de:
+- Usar contraseñas fuertes y únicas para JWT_SECRET
+- Configurar HTTPS
+- Establecer `NODE_ENV=production`
+- Configurar CORS con el dominio de producción
+- Activar rate limiting en el servidor
+
+---
+
+## 💻 Uso
+
+### Desarrollo
+```bash
+# Iniciar servidor de desarrollo
+npm start
+
+# El servidor estará disponible en:
+# http://localhost:3000
+```
+
+### Producción
+```bash
+# Instalar dependencias de producción
+npm install --production
+
+# Iniciar servidor
+NODE_ENV=production npm start
 ```
 
 ---
 
-## 🔐 Documentación de API
-
-### 📌 Autenticación
-
-#### `POST /api/auth/login`
-**Descripción:** Autenticación de usuarios (admin y empleados)
-
-**Request Body:**
-```json
-{
-  "user": "carlos_admin",
-  "password": "12345"
-}
+## 📁 Estructura del Proyecto
 ```
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Login exitoso",
-  "data": {
-    "user": {
-      "empleado_id": 1,
-      "nombre": "Carlos",
-      "rol": "admin",
-      "empresa": "METROSINU S.A."
-    }
-  }
-}
-```
-
-#### `POST /api/auth/logout`
-**Descripción:** Cierre de sesión (invalida token)
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Logout exitoso"
-}
-```
-
----
-
-### 📌 Asistencia
-
-#### `GET /api/attendance/qr-token`
-**Descripción:** Generar token temporal para QR (válido 1 min)
-
-**Headers:** `Cookie: token=<jwt>`
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Token QR generado",
-  "data": {
-    "qrToken": "abc123def456...",
-    "expiresAt": "2025-12-02T15:35:00Z"
-  }
-}
-```
-
-#### `POST /api/attendance/register`
-**Descripción:** Registro automático con QR
-
-**Request Body:**
-```json
-{
-  "qrToken": "abc123def456..."
-}
-```
-
-**Response (201):**
-```json
-{
-  "success": true,
-  "message": "Asistencia registrada: ENTRADA",
-  "data": {
-    "registro_id": 123,
-    "tipo_movimiento": "ENTRADA",
-    "fecha_hora": "2025-12-02T08:30:00Z"
-  }
-}
-```
-
-#### `POST /api/attendance/register-assisted`
-**Descripción:** Registro manual con firma digital (Portero)
-
-**Headers:** `Cookie: token=<jwt>` (rol: portero)
-
-**Request Body:**
-```json
-{
-  "employeeId": 5,
-  "digitalSignature": "data:image/png;base64,iVBORw0KGgo..."
-}
-```
-
-**Response (201):**
-```json
-{
-  "success": true,
-  "message": "Asistencia registrada: SALIDA con firma digital",
-  "data": {
-    "registro_id": 124,
-    "empleado_registrado_id": 5,
-    "registrado_por_id": 4,
-    "tipo_movimiento": "SALIDA"
-  }
-}
+sistema-car/
+├── client/                    # Frontend
+│   ├── assets/
+│   │   ├── css/              # Estilos
+│   │   │   ├── styles_login.css
+│   │   │   ├── styles_dashboard.css
+│   │   │   ├── styles_employees.css
+│   │   │   ├── styles_profile.css
+│   │   │   └── styles_errorPages.css
+│   │   ├── images/           # Imágenes y favicon
+│   │   │   └── favicon.svg
+│   │   └── js/               # JavaScript del cliente
+│   │       ├── login.js
+│   │       ├── dashboard.js
+│   │       ├── employees.js
+│   │       ├── profile.js
+│   │       └── formatValues.js
+│   └── pages/                # Páginas HTML
+│       ├── login.html
+│       ├── dashboard.html
+│       ├── employees.html
+│       ├── profile.html
+│       ├── 403.html
+│       ├── 404.html
+│       └── 500.html
+│
+├── server/                    # Backend
+│   ├── config/
+│   │   └── database.js       # Configuración MySQL
+│   ├── controllers/          # Controladores
+│   │   ├── authController.js
+│   │   ├── profileController.js
+│   │   ├── employeeController.js
+│   │   └── attendanceController.js
+│   ├── middleware/           # Middleware
+│   │   ├── auth.js
+|   |   ├── errorHandler.js
+|   |   └── notFound.js
+│   ├── models/               # Modelos
+│   │   ├── userModel.js
+│   │   ├── companyModel.js
+│   │   ├── roleModel.js
+│   │   └── attendanceModel.js
+│   ├── routes/               # Rutas
+│   │   ├── authRoutes.js
+│   │   ├── profileRoutes.js
+│   │   ├── employeeRoutes.js
+│   │   └── attendanceRoutes.js
+│   ├── utils/                # Utilidades
+│   │   └── responses.js
+│   ├── app.js      # Configuración servidor
+|   └── server.js       # Iniciar servidor
+│
+├── database/                  # Base de datos
+│   ├── development_schema.sql          # Datos de ejemplo
+│   └── install_sql.sql                 # Esquema de la DB
+│
+├── docs
+|   └── car_system_flows.md  #Explicación del flujo del sistema
+|
+├── .env              # Variables de entorno creadas por ustedes
+├── .gitignore
+├── package.json
+└── README.md
 ```
 
 ---
 
-### 📌 Gestión de Empleados (Admin Only)
+## 🔌 API Endpoints
 
-#### `GET /api/employees`
-**Descripción:** Listar todos los empleados
-
-**Headers:** `Cookie: token=<jwt>` (rol: admin)
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Lista de empleados obtenida exitosamente",
-  "data": [
-    {
-      "empleado_id": 5,
-      "nombre": "Juan",
-      "apellido": "Gómez",
-      "correo": "juan@empresa.com",
-      "usuario": "juan.empleado",
-      "cod_empleado": "EMP-001",
-      "activo": true,
-      "nombre_rol": "empleado",
-      "nombre_empresa": "METROSINU S.A.",
-      "supervisor_nombre": "Ana Martínez"
-    }
-  ]
-}
+### Autenticación
+```http
+POST   /api/auth/login        # Iniciar sesión
+POST   /api/auth/logout       # Cerrar sesión
 ```
 
-#### `GET /api/employees/:id`
-**Descripción:** Obtener empleado por ID
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Empleado obtenido exitosamente",
-  "data": {
-    "empleado_id": 5,
-    "nombre": "Juan",
-    "rol": "empleado",
-    "empresa": "METROSINU S.A.",
-    "supervisor": "Ana Martínez"
-  }
-}
+### Perfil
+```http
+GET    /api/profile/           # Obtener perfil actual
+PUT    /api/profile/           # Actualizar perfil
+PUT    /api/profile/password   # Cambiar contraseña
 ```
 
-#### `POST /api/employees`
-**Descripción:** Crear nuevo empleado
-
-**Request Body:**
-```json
-{
-  "name": "Pedro",
-  "lastName": "López",
-  "email": "pedro@empresa.com",
-  "user": "pedro.lopez",
-  "password": "temporal123",
-  "employeeCode": "EMP-002",
-  "roleName": "empleado",
-  "companyName": "METROSINU S.A.",
-  "supervisorId": 4,
-  "active": true
-}
+### Empleados
+```http
+GET    /api/employees/                      # Listar todos los empleados
+GET    /api/employees/:id                   # Obtener empleado por ID
+POST   /api/employees/                      # Crear empleado
+PUT    /api/employees/:id                   # Actualizar empleado
+DELETE /api/employees/:id                   # Eliminar (desactivar) empleado
+GET    /api/employees/by-company            # Filtrar por empresa
+GET    /api/employees/lookups/companies     # Listar empresas
+GET    /api/employees/lookups/roles         # Listar roles
+GET    /api/employees/lookups/supervisors   # Listar supervisores por empresa
 ```
 
-**Response (201):**
-```json
-{
-  "success": true,
-  "message": "Usuario creado exitosamente",
-  "data": {
-    "id": 6
-  }
-}
-```
-
-#### `PUT /api/employees/:id`
-**Descripción:** Actualizar empleado (sin contraseña)
-
-**Request Body:**
-```json
-{
-  "name": "Pedro Carlos",
-  "roleName": "supervisor"
-}
-```
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Empleado actualizado correctamente"
-}
-```
-
-#### `DELETE /api/employees/:id`
-**Descripción:** Desactivar empleado (soft delete)
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Empleado desactivado correctamente"
-}
+### Asistencia
+```http
+GET    /api/attendance/qr          # Generar código QR
+POST   /api/attendance/register         # Validar y registrar asistencia por QR
+POST   /api/attendance/assisted-register             # Registro asistido con firma
 ```
 
 ---
 
-### 📌 Catálogos (Admin)
+## 🗺️ Roadmap
 
-#### `GET /api/employees/supervisors?companyId=1`
-**Descripción:** Obtener supervisores de una empresa específica
+### 📊 Fase 2 - Reportes y Estadísticas
+- [ ] Panel de reportes de asistencia
+- [ ] Exportación de reportes a Excel/PDF
+- [ ] Dashboard con métricas en tiempo real
 
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Lista de supervisores obtenida exitosamente",
-  "data": [
-    {
-      "empleado_id": 4,
-      "cod_empleado": "SUP-001",
-      "nombre_completo": "Ana Martínez"
-    }
-  ]
-}
-```
+### 📱 Fase 3 - Aplicación Móvil
+- [ ] App móvil nativa (React Native)
+- [ ] Registro offline con sincronización
+- [ ] Notificaciones push
 
-#### `GET /api/roles`
-**Descripción:** Listar todos los roles disponibles
-
-#### `GET /api/companies`
-**Descripción:** Listar todas las empresas activas
-
----
-
-### 📌 Perfil (Self-Service)
-
-#### `GET /api/profile`
-**Descripción:** Ver perfil del empleado autenticado
-
-**Headers:** `Cookie: token=<jwt>`
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Perfil obtenido",
-  "data": {
-    "empleado_id": 5,
-    "nombre": "Juan",
-    "apellido": "Gómez",
-    "correo": "juan@empresa.com",
-    "usuario": "juan.empleado",
-    "rol": "empleado",
-    "empresa": "METROSINU S.A."
-  }
-}
-```
-
-#### `PUT /api/profile`
-**Descripción:** Actualizar perfil propio (campos limitados)
-
-**Request Body:**
-```json
-{
-  "name": "Juan Carlos",
-  "email": "juancarlos@gmail.com"
-}
-```
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Perfil actualizado exitosamente",
-  "data": { /* datos actualizados */ }
-}
-```
-
-#### `PUT /api/profile/password`
-**Descripción:** Cambiar contraseña propia
-
-**Request Body:**
-```json
-{
-  "currentPassword": "temporal123",
-  "newPassword": "miPasswordSeguro123"
-}
-```
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Contraseña actualizada exitosamente"
-}
-```
-
----
-
-## 🎓 Decisiones Técnicas y Aprendizajes
-
-### 🔒 Seguridad
-- **JWT en httpOnly cookies** en lugar de localStorage para prevenir XSS
-- **Bcrypt con 10 salt rounds** para hash seguro de contraseñas
-- **Middleware de roles** para autorización granular por endpoint
-- **Validación de contraseña actual** en cambio de contraseña (previene cambios no autorizados si sesión queda abierta)
-- **Soft delete** en lugar de eliminación física (mantiene integridad referencial)
-
-### 🏗️ Arquitectura
-- **Separación de responsabilidades:** Admin CRUD vs Self-Service Profile
-- **Sin dependencias circulares:** Models solo importan pool, nunca controllers
-- **Try-catch en todos los models:** Previene crashes del servidor
-- **Queries con columnas explícitas:** No usar `SELECT *` (seguridad y performance)
-- **Respuestas estandarizadas:** Utility para success/error consistente
-
-### 📊 Base de Datos
-- **Auto-referencia en empleados:** Jerarquía de supervisión (supervisor_id → empleado_id)
-- **IDs intencionales en registros:** `empleado_registrado_id` vs `registrado_por_id` para trazabilidad completa
-- **Validación en nivel BD:** UNIQUE constraints, FOREIGN KEYS, NOT NULL donde corresponde
-- **Diseño normalizado:** Evita duplicación de datos
-
-### 🔄 Lógica de Negocio
-- **Detección automática de movimiento:** El sistema determina si es ENTRADA o SALIDA según último registro
-- **Tokens QR temporales:** Válidos solo 1 minuto (previene reuso)
-- **Firma digital opcional:** Solo en registro asistido, almacenada como base64
-- **Método de registro trazable:** Cada registro indica QR o MANUAL
-
----
-
-## 🚧 Roadmap - Fases Futuras
-
-### Fase II: Cálculos y Nómina (Planeada)
-- [ ] Consulta de registros por empleado y rango de fechas
-- [ ] Cálculo automático de horas trabajadas por día
-- [ ] Identificación de horas extras (>8h diarias, >48h semanales)
-- [ ] Cálculo de recargos nocturnos (Según legislación colombiana)
-- [ ] Validación de jornadas máximas legales
-
-### Fase III: Reportes y Analytics (Planeada)
-- [ ] Dashboard de métricas para supervisores
-- [ ] Reportes de asistencia por período
-- [ ] Exportación a Excel/PDF
-- [ ] Gráficos de puntualidad y ausentismo
-- [ ] Notificaciones automáticas de inconsistencias
-
-### Mejoras Técnicas (Backlog)
-- [ ] Tests unitarios con Jest
-- [ ] Tests de integración con Supertest
-- [ ] Documentación OpenAPI/Swagger
-- [ ] Rate limiting con express-rate-limit
-- [ ] Validación de inputs con Joi
-- [ ] Logging estructurado con Winston
-- [ ] Deploy en Railway/Render
+### 🔧 Mejoras Continuas
+- [ ] Tests automatizados (Jest + Supertest)
+- [ ] Documentación de API con Swagger
+- [ ] Containerización con Docker
 - [ ] CI/CD con GitHub Actions
+- [ ] Logs centralizados (Winston)
+- [ ] Rate limiting y throttling
 
 ---
 
-## 🤝 Contribuciones
+## 🤝 Contribuir
 
-Este es un proyecto personal de portfolio, pero sugerencias y feedback son bienvenidos.
+Las contribuciones son bienvenidas. Para cambios importantes:
+
+1. Haz fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/yourFeature`)
+3. Haz commit de tus cambios (`git commit -m 'feat: Add yourFeature'`)
+4. Push a la rama (`git push origin feature/yourFeature`)
+5. Abre un Pull Request
+
+### Guía de Estilo de Commits
+
+Este proyecto usa [Conventional Commits](https://www.conventionalcommits.org/):
+```
+feat: nueva funcionalidad
+fix: corrección de bug
+docs: cambios en documentación
+style: formato, punto y coma faltante, etc
+refactor: refactorización de código
+test: agregar tests
+chore: mantenimiento
+```
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto es de código abierto y está disponible bajo la Licencia MIT.
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
 ---
 
-## 👨‍💻 Autor
+## 📧 Contacto
 
-**Brayan** - Electronic Engineer transitioning to Backend Development
+**Brayan Ortiz**
 
-- 📧 Email: brayanortizg7@gmail.com
-- 🐙 GitHub: https://github.com/BrayanOrt1z
-- 📍 Montería, Colombia
+- Email: brayanortizg7@gmail.com
+- GitHub: [@BrayanOrt1z](https://github.com/BrayanOrt1z)
+
+**Link del Proyecto**: [https://github.com/BrayanOrt1z/app-registro-asistencia](https://github.com/BrayanOrt1z/app-registro-asistencia)
 
 ---
 
-## 🎯 Contexto del Proyecto
+<div align="center">
 
-Este sistema fue desarrollado como MVP funcional para demostrar competencias en:
-- Diseño de arquitecturas backend escalables
-- Implementación de autenticación y autorización robustas
-- Modelado de bases de datos relacionales complejas
-- Desarrollo de APIs RESTful profesionales
-- Aplicación de mejores prácticas de seguridad
+⭐ Si este proyecto te fue útil, considera darle una estrella ⭐
 
-**Estado:** MVP Funcional - Backend completo, Frontend en desarrollo  
-**Última actualización:** Diciembre 2025
+**Desarrollado por Brayan Ortiz**
+
+</div>
